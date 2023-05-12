@@ -13,7 +13,9 @@ import com.portfolio.dtos.ProyectDto;
 import com.portfolio.dtos.ProyectResponseDto;
 import com.portfolio.exceptions.ResourceNotFoundException;
 import com.portfolio.models.Proyect;
+import com.portfolio.models.User;
 import com.portfolio.repositories.ProyectRepository;
+import com.portfolio.repositories.UserRepository;
 
 @Service
 public class ProyectServiceImpl implements ProyectService {
@@ -21,11 +23,15 @@ public class ProyectServiceImpl implements ProyectService {
   @Autowired
   private ProyectRepository proyectRepository;
 
+  @Autowired
+  private UserRepository userRepository;
+
   // convertir de modelo a Dto
   private ProyectDto convertDto(Proyect proyect) {
+    User user = proyect.getUser();
     ProyectDto proyectDto = new ProyectDto();
     proyectDto.setId(proyect.getId());
-    proyectDto.setUser_id(proyect.getUser_id());
+    proyectDto.setUser_id(user.getId());
     proyectDto.setName(proyect.getName());
     proyectDto.setDescription(proyect.getDescription());
     proyectDto.setImage(proyect.getImage());
@@ -38,7 +44,6 @@ public class ProyectServiceImpl implements ProyectService {
   // convertir de Dto a modelo
   private Proyect convertModel(ProyectDto proyectDto) {
     Proyect proyect = new Proyect();
-    proyect.setUser_id(proyectDto.getUser_id());
     proyect.setName(proyectDto.getName());
     proyect.setDescription(proyectDto.getDescription());
     proyect.setImage(proyectDto.getImage());
@@ -79,14 +84,21 @@ public class ProyectServiceImpl implements ProyectService {
 
   @Override
   public ProyectDto createProyect(ProyectDto proyectDto) {
+    // busco el usuario para asignarle el proyecto, si no lo encuentro devulevo error.
+    User user = userRepository.findById(proyectDto.getUser_id()).orElseThrow( ()  -> new ResourceNotFoundException("user", "id", proyectDto.getUser_id()));
+
     // convierto el dto que recibo a un model para guardar en la db
     Proyect proyect = convertModel(proyectDto);
+    
+    // asigno el proyecto al usuario
+    proyect.setUser(user);
+
     // obtengo el proyecto guardado
     Proyect newProyect = proyectRepository.save(proyect);
+    
     // convierto el proyecto guardado a Dto
-    ProyectDto proyectResp = convertDto(newProyect);
-    // retorno el dto en el endpoint
-    return proyectResp;
+    return convertDto(newProyect);
+
   }
 
   @Override

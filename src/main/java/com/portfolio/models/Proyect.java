@@ -2,9 +2,12 @@ package com.portfolio.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -15,8 +18,12 @@ public class Proyect {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "user_id", nullable = false)
-  private Long user_id;
+  // @Column(name = "user_id", nullable = false)
+  // private Long user_id;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
 
   @Column(name = "name", nullable = false)
   private String name;
@@ -35,6 +42,7 @@ public class Proyect {
 
   // Constructor
   public Proyect() {
+    super();
   }
 
   public Long getId() {
@@ -45,12 +53,12 @@ public class Proyect {
     this.id = id;
   }
 
-  public Long getUser_id() {
-    return user_id;
+  public User getUser() {
+    return user;
   }
 
-  public void setUser_id(Long user_id) {
-    this.user_id = user_id;
+  public void setUser(User user) {
+    this.user = user;
   }
 
   public String getName() {
@@ -92,4 +100,6 @@ public class Proyect {
   public void setLink_github(String link_github) {
     this.link_github = link_github;
   }
+
+  
 }
