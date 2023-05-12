@@ -3,6 +3,7 @@ package com.portfolio.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,32 +14,21 @@ import com.portfolio.repositories.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private UserRepository userRepository;
 
   // metodo para canvertir de modelo a Dto
   private UserDto convertDto(User user) {
-    UserDto userDto = new UserDto();
-    userDto.setId(user.getId());
-    userDto.setName(user.getName());
-    userDto.setEmail(user.getEmail());
-    userDto.setPassword(user.getPassword());
-    userDto.setCargo(user.getCargo());
-    userDto.setImage(user.getImage());
-
+    UserDto userDto = modelMapper.map(user, UserDto.class);
     return userDto;
   }
 
   // metodo para convertir de dto a modelo
   private User convertModel(UserDto userDto) {
-    User user = new User();
-    user.setName(userDto.getName());
-    user.setEmail(userDto.getEmail());
-    user.setPassword(userDto.getPassword());
-    user.setCargo(userDto.getCargo());
-    user.setImage(userDto.getImage());
-
+    User user = modelMapper.map(userDto, User.class);
     return user;
   }
 

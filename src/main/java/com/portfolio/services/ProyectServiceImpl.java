@@ -3,6 +3,7 @@ package com.portfolio.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,8 @@ import com.portfolio.repositories.UserRepository;
 
 @Service
 public class ProyectServiceImpl implements ProyectService {
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private ProyectRepository proyectRepository;
@@ -28,28 +31,19 @@ public class ProyectServiceImpl implements ProyectService {
 
   // convertir de modelo a Dto
   private ProyectDto convertDto(Proyect proyect) {
+    // extraemos el usuario que viene en el pryecto
     User user = proyect.getUser();
-    ProyectDto proyectDto = new ProyectDto();
-    proyectDto.setId(proyect.getId());
+    // mapeamos el dto
+    ProyectDto proyectDto = modelMapper.map(proyect, ProyectDto.class);
+    // agregamos al dto el id del user
     proyectDto.setUser_id(user.getId());
-    proyectDto.setName(proyect.getName());
-    proyectDto.setDescription(proyect.getDescription());
-    proyectDto.setImage(proyect.getImage());
-    proyectDto.setLink_production(proyect.getLink_production());
-    proyectDto.setLink_github(proyect.getLink_github());
-
+    
     return proyectDto;
   }
 
   // convertir de Dto a modelo
   private Proyect convertModel(ProyectDto proyectDto) {
-    Proyect proyect = new Proyect();
-    proyect.setName(proyectDto.getName());
-    proyect.setDescription(proyectDto.getDescription());
-    proyect.setImage(proyectDto.getImage());
-    proyect.setLink_production(proyectDto.getLink_production());
-    proyect.setLink_github(proyectDto.getLink_github());
-
+    Proyect proyect = modelMapper.map(proyectDto, Proyect.class);
     return proyect;
   }
 

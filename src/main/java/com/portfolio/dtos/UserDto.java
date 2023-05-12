@@ -49,6 +49,4 @@ public class UserDto {
   public void setImage(String image) {
     this.image = image;
   }
-
-  
 }

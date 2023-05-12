@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"} )})
 public class User {
@@ -35,6 +37,7 @@ public class User {
   @Column(name = "image", nullable = true)
   private String image;
 
+  @JsonBackReference
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Proyect> proyects = new HashSet<>();
   
@@ -90,5 +93,11 @@ public class User {
     this.image = image;
   }
 
-  
+  public Set<Proyect> getProyects() {
+    return proyects;
+  }
+
+  public void setProyects(Set<Proyect> proyects) {
+    this.proyects = proyects;
+  }
 }
