@@ -1,6 +1,6 @@
 package com.portfolio.dtos;
 
-public class ProyectDto {
+public class ProjectDto {
   private Long id;
   private Long user_id;
   private String name;
@@ -10,7 +10,7 @@ public class ProyectDto {
   private String link_github;
   
   // constructor
-  public ProyectDto() {
+  public ProjectDto() {
   }
 
   public Long getId() {

@@ -39,7 +39,7 @@ public class User {
 
   @JsonBackReference
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Proyect> proyects = new HashSet<>();
+  private Set<Project> proyects = new HashSet<>();
   
   // constructor
   public User() {
@@ -93,11 +93,11 @@ public class User {
     this.image = image;
   }
 
-  public Set<Proyect> getProyects() {
+  public Set<Project> getProyects() {
     return proyects;
   }
 
-  public void setProyects(Set<Proyect> proyects) {
+  public void setProyects(Set<Project> proyects) {
     this.proyects = proyects;
   }
 }

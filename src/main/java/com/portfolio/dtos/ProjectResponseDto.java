@@ -2,8 +2,8 @@ package com.portfolio.dtos;
 
 import java.util.List;
 
-public class ProyectResponseDto {
-  private List<ProyectDto> content;
+public class ProjectResponseDto {
+  private List<ProjectDto> content;
   private int numberPage;
   private int limitPage;
   private long totalProyects;
@@ -11,14 +11,14 @@ public class ProyectResponseDto {
   private boolean isLast;
 
   // constructor
-  public ProyectResponseDto() {
+  public ProjectResponseDto() {
   }
 
-  public List<ProyectDto> getContent() {
+  public List<ProjectDto> getContent() {
     return content;
   }
 
-  public void setContent(List<ProyectDto> content) {
+  public void setContent(List<ProjectDto> content) {
     this.content = content;
   }
 
@@ -38,11 +38,11 @@ public class ProyectResponseDto {
     this.limitPage = limitPage;
   }
 
-  public long getTotalProyects() {
+  public long getTotalProjects() {
     return totalProyects;
   }
 
-  public void setTotalProyects(long totalProyects) {
+  public void setTotalProjects(long totalProyects) {
     this.totalProyects = totalProyects;
   }
 

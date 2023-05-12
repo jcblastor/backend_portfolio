@@ -13,7 +13,7 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "proyects", uniqueConstraints = { @UniqueConstraint(columnNames = {"name"} ) })
-public class Proyect {
+public class Project {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -41,7 +41,7 @@ public class Proyect {
   private String link_github;
 
   // Constructor
-  public Proyect() {
+  public Project() {
     super();
   }
 

@@ -13,43 +13,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.portfolio.dtos.ProyectDto;
-import com.portfolio.dtos.ProyectResponseDto;
-import com.portfolio.services.ProyectService;
+import com.portfolio.dtos.ProjectDto;
+import com.portfolio.dtos.ProjectResponseDto;
+import com.portfolio.services.ProjectService;
 
 @RestController
 @RequestMapping("/api/proyects")
-public class ProyectController {
+public class ProjectController {
   @Autowired
-  private ProyectService proyectService;
+  private ProjectService projectService;
 
   @GetMapping
-  public ProyectResponseDto getProyects(
+  public ProjectResponseDto getProyects(
       @RequestParam(value = "page", defaultValue = "0", required = false) int numberPage,
       @RequestParam(value = "limit", defaultValue = "10", required = false) int limitPage
     ) {
-    return proyectService.getAllProyects(numberPage, limitPage);
+    return projectService.getAllProyects(numberPage, limitPage);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<ProyectDto> getProyectById(@PathVariable(name = "id") long id) {
-    return ResponseEntity.ok(proyectService.getProyectById(id));
+  public ResponseEntity<ProjectDto> getProyectById(@PathVariable(name = "id") long id) {
+    return ResponseEntity.ok(projectService.getProyectById(id));
   }
 
   @PostMapping
-  public ResponseEntity<ProyectDto> saveProyect(@RequestBody ProyectDto proyectDto) {
-    return new ResponseEntity<ProyectDto>(proyectService.createProyect(proyectDto), HttpStatus.CREATED);
+  public ResponseEntity<ProjectDto> saveProyect(@RequestBody ProjectDto projectDto) {
+    return new ResponseEntity<ProjectDto>(projectService.createProject(projectDto), HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<ProyectDto> updateProyect(@RequestBody ProyectDto proyectDto, @PathVariable(name = "id") long id) {
-    ProyectDto proyectResp = proyectService.updateProyect(proyectDto, id);
-    return new ResponseEntity<ProyectDto>(proyectResp, HttpStatus.OK);
+  public ResponseEntity<ProjectDto> updateProyect(@RequestBody ProjectDto projectDto, @PathVariable(name = "id") long id) {
+    ProjectDto proyectResp = projectService.updateProject(projectDto, id);
+    return new ResponseEntity<ProjectDto>(proyectResp, HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteProyect(@PathVariable(name = "id")long id) {
-    proyectService.deleteProyect(id);
+    projectService.deleteProject(id);
     return new ResponseEntity<String>("El proyecto fue eliminado con exito", HttpStatus.OK);
   }
 }
