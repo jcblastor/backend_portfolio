@@ -5,7 +5,7 @@ services:
     image: mysql:8.0-debian
     restart: always
     volumes:
-      - ./portfolio:/var/lib/mysql
+      - ./portfolio-db:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: example
     ports:
