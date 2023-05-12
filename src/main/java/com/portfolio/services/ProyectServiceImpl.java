@@ -66,7 +66,26 @@ public class ProyectServiceImpl implements ProyectService {
 
   @Override
   public ProyectDto getProyectById(long id) {
-    Proyect proyect = proyectRepository.findById(id).orElseThrow( ()  -> new ResourceNotFoundException("user", "id", id));
+    // busco el proyecto, si no lo encuentro lanzo un throw error
+    Proyect proyect = proyectRepository.findById(id).orElseThrow( ()  -> new ResourceNotFoundException("proyecto", "id", id));
     return convertDto(proyect);
+  }
+
+  @Override
+  public ProyectDto updateProyect(ProyectDto proyectDto, long id) {
+    // busco el proyecto, si no lo encuentro lanzo un throw error
+    Proyect proyect = proyectRepository.findById(id).orElseThrow( ()  -> new ResourceNotFoundException("proyecto", "id", id));
+    // guardo los nuevos cambios
+    proyect.setName(proyectDto.getName());
+    proyect.setDescription(proyectDto.getDescription());
+    proyect.setImage(proyectDto.getImage());
+    proyect.setLink_production(proyectDto.getLink_production());
+    proyect.setLink_github(proyectDto.getLink_github());
+
+    // guardo los datos en la db
+    Proyect proyectResp = proyectRepository.save(proyect);
+
+    // conviertos los datos guardados en la db a Dto y lo retorno
+    return convertDto(proyectResp);
   }
 }
