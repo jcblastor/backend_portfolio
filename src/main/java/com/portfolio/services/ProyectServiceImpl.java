@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.portfolio.dtos.ProyectDto;
+import com.portfolio.exceptions.ResourceNotFoundException;
 import com.portfolio.models.Proyect;
 import com.portfolio.repositories.ProyectRepository;
 
@@ -61,5 +62,11 @@ public class ProyectServiceImpl implements ProyectService {
     List<Proyect> proyects = proyectRepository.findAll();
     // convertimos los datos en un Dto para devolver
     return proyects.stream().map(proyect -> convertDto(proyect)).collect(Collectors.toList());
+  }
+
+  @Override
+  public ProyectDto getProyectById(long id) {
+    Proyect proyect = proyectRepository.findById(id).orElseThrow( ()  -> new ResourceNotFoundException("user", "id", id));
+    return convertDto(proyect);
   }
 }
