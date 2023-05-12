@@ -1,40 +1,16 @@
-package com.portfolio.models;
+package com.portfolio.dtos;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
-@Entity
-@Table(name = "proyects", uniqueConstraints = { @UniqueConstraint(columnNames = {"name"} ) })
-public class Proyect {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProyectDto {
   private Long id;
-
-  @Column(name = "user_id", nullable = false)
   private Long user_id;
-
-  @Column(name = "name", nullable = false)
   private String name;
-
-  @Column(name = "description", nullable = false)
   private String description;
-
-  @Column(name = "image", nullable = true)
   private String image;
-
-  @Column(name = "link_production", nullable = true)
   private String link_production;
-
-  @Column(name = "link_github", nullable = false)
   private String link_github;
-
-  // Constructor
-  public Proyect() {
+  
+  // constructor
+  public ProyectDto() {
   }
 
   public Long getId() {
