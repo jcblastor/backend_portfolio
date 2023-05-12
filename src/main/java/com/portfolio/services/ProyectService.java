@@ -1,13 +1,12 @@
 package com.portfolio.services;
 
-import java.util.List;
-
 import com.portfolio.dtos.ProyectDto;
+import com.portfolio.dtos.ProyectResponseDto;
 
 public interface ProyectService {
-  public ProyectDto createProyect(ProyectDto proyectDto);
-  public List<ProyectDto> getAllProyects();
+  public ProyectResponseDto getAllProyects(int numberPage, int limitPage);
   public ProyectDto getProyectById(long id);
+  public ProyectDto createProyect(ProyectDto proyectDto);
   public ProyectDto updateProyect(ProyectDto proyectDto, long id);
   public void deleteProyect(long id);
 }

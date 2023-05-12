@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.portfolio.dtos.ProyectDto;
+import com.portfolio.dtos.ProyectResponseDto;
 import com.portfolio.exceptions.ResourceNotFoundException;
 import com.portfolio.models.Proyect;
 import com.portfolio.repositories.ProyectRepository;
@@ -45,6 +49,35 @@ public class ProyectServiceImpl implements ProyectService {
   }
 
   @Override
+  public ProyectResponseDto getAllProyects(int numberPage, int limitPage) {
+    Pageable pageable = PageRequest.of(numberPage, limitPage);
+    Page<Proyect> proyects = proyectRepository.findAll(pageable);
+
+    // buscamos todos los proyectos
+    List<Proyect> proyectsList = proyects.getContent();
+    // convertimos los datos en un Dto para devolver
+    List<ProyectDto> content = proyectsList.stream().map(proyect -> convertDto(proyect)).collect(Collectors.toList());
+
+    // seteamos los datos para la paginacion
+    ProyectResponseDto proyectResp = new ProyectResponseDto();
+    proyectResp.setContent(content);
+    proyectResp.setNumberPage(proyects.getNumber());
+    proyectResp.setLimitPage(proyects.getSize());
+    proyectResp.setTotalProyects(proyects.getTotalElements());
+    proyectResp.setTotalPage(proyects.getTotalPages());
+    proyectResp.setLast(proyects.isLast());
+
+    return proyectResp;
+  }
+
+  @Override
+  public ProyectDto getProyectById(long id) {
+    // busco el proyecto, si no lo encuentro lanzo un throw error
+    Proyect proyect = proyectRepository.findById(id).orElseThrow( ()  -> new ResourceNotFoundException("proyecto", "id", id));
+    return convertDto(proyect);
+  }
+
+  @Override
   public ProyectDto createProyect(ProyectDto proyectDto) {
     // convierto el dto que recibo a un model para guardar en la db
     Proyect proyect = convertModel(proyectDto);
@@ -54,21 +87,6 @@ public class ProyectServiceImpl implements ProyectService {
     ProyectDto proyectResp = convertDto(newProyect);
     // retorno el dto en el endpoint
     return proyectResp;
-  }
-
-  @Override
-  public List<ProyectDto> getAllProyects() {
-    // buscamos todos los proyectos
-    List<Proyect> proyects = proyectRepository.findAll();
-    // convertimos los datos en un Dto para devolver
-    return proyects.stream().map(proyect -> convertDto(proyect)).collect(Collectors.toList());
-  }
-
-  @Override
-  public ProyectDto getProyectById(long id) {
-    // busco el proyecto, si no lo encuentro lanzo un throw error
-    Proyect proyect = proyectRepository.findById(id).orElseThrow( ()  -> new ResourceNotFoundException("proyecto", "id", id));
-    return convertDto(proyect);
   }
 
   @Override
