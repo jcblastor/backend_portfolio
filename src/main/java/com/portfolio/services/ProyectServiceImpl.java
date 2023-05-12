@@ -1,5 +1,8 @@
 package com.portfolio.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +53,13 @@ public class ProyectServiceImpl implements ProyectService {
     ProyectDto proyectResp = convertDto(newProyect);
     // retorno el dto en el endpoint
     return proyectResp;
+  }
+
+  @Override
+  public List<ProyectDto> getAllProyects() {
+    // buscamos todos los proyectos
+    List<Proyect> proyects = proyectRepository.findAll();
+    // convertimos los datos en un Dto para devolver
+    return proyects.stream().map(proyect -> convertDto(proyect)).collect(Collectors.toList());
   }
 }
