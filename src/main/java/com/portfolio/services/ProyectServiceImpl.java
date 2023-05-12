@@ -88,4 +88,12 @@ public class ProyectServiceImpl implements ProyectService {
     // conviertos los datos guardados en la db a Dto y lo retorno
     return convertDto(proyectResp);
   }
+
+  @Override
+  public void deleteProyect(long id) {
+    // busco el proyecto, si no lo encuentro lanzo un throw error
+    Proyect proyect = proyectRepository.findById(id).orElseThrow( ()  -> new ResourceNotFoundException("proyecto", "id", id));
+    // si encuentro el proyecto lo elimino
+    proyectRepository.delete(proyect);
+  }
 }

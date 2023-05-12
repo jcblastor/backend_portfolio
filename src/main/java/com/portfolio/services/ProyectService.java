@@ -9,4 +9,5 @@ public interface ProyectService {
   public List<ProyectDto> getAllProyects();
   public ProyectDto getProyectById(long id);
   public ProyectDto updateProyect(ProyectDto proyectDto, long id);
+  public void deleteProyect(long id);
 }
