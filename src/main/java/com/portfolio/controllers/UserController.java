@@ -2,6 +2,8 @@ package com.portfolio.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +25,9 @@ public class UserController {
   @Autowired
   private UserService userService;
 
+  // @PreAuthorize("hasRole('ADMIN')")
   @PostMapping
-  public ResponseEntity<UserDto> saveUser(@RequestBody UserDto userDto){
+  public ResponseEntity<UserDto> saveUser(@Valid @RequestBody UserDto userDto){
     return new ResponseEntity<UserDto>(userService.createUser(userDto), HttpStatus.CREATED);
   }
 
@@ -38,12 +41,14 @@ public class UserController {
     return ResponseEntity.ok(userService.getUserById(id));
   }
 
+  // @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/{id}")
-  public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable(name = "id") long id) {
+  public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable(name = "id") long id) {
     UserDto userResp = userService.updateUser(userDto, id);
     return new ResponseEntity<UserDto>(userResp, HttpStatus.OK);
   }
 
+  // @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteUser(@PathVariable(name = "id") long id) {
     userService.deleteUser(id);

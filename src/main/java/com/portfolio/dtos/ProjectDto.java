@@ -1,12 +1,24 @@
 package com.portfolio.dtos;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class ProjectDto {
   private Long id;
   private Long user_id;
+
+  @NotEmpty(message = "El nombre del proyecto es requerido")
+  @Size(min = 6, message = "Nombre del proyecto tiene que tener al menos 6 caracteres")
   private String name;
+
+  @NotEmpty(message = "La descripción del proyecto es requerido")
+  @Size(min = 10, message = "Nombre del proyecto tiene que tener al menos 10 caracteres")
   private String description;
+
   private String image;
   private String link_production;
+  
+  @NotEmpty(message = "Link del repositorio es requerido")
   private String link_github;
   
   // constructor

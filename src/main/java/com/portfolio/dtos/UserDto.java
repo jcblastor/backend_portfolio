@@ -1,11 +1,25 @@
 package com.portfolio.dtos;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class UserDto {
 
   private Long id;
-  private String name;
+
+  @NotEmpty
+  @Size(min = 3, message = "El nombre de usuario debe tener al menos 3 caracteres")
+  private String username;
+
+  @NotEmpty
+  @Email(message = "Debe ingresar un correo valido")
   private String email;
+
+  @NotEmpty
+  @Size(min = 8, message = "La contraseña tiene que tener al menos 8 caracteres")
   private String password;
+  
   private String cargo;
   private String image;
 
@@ -19,12 +33,15 @@ public class UserDto {
   public void setId(Long id) {
     this.id = id;
   }
-  public String getName() {
-    return name;
+
+  public String getUsername() {
+    return username;
   }
-  public void setName(String name) {
-    this.name = name;
+
+  public void setUsername(String username) {
+    this.username = username;
   }
+
   public String getEmail() {
     return email;
   }
